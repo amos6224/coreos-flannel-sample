@@ -4,7 +4,7 @@ coreos:
   etcd:
     # generate a new token for each unique cluster from https://discovery.etcd.io/new
     # WARNING: replace each time you 'vagrant destroy'
-    discovery: <%= ENV["ETCD_DISCOVERY"] %>
+    discovery: <%= etcd_discovery %>
     addr: $public_ipv4:4001
     peer-addr: $public_ipv4:7001
   fleet:
@@ -34,10 +34,8 @@ coreos:
       content: |
         [Unit]
         Description=Docker Socket for the API
-        <% if ENV["FLANNEL"] %>
         After=flanneld.service
         Requires=flanneld.service
-        <% end %>
 
         [Socket]
         ListenStream=2375
